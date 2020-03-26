@@ -1,30 +1,38 @@
 "use strict";
 
 // Use the Azure IoT device SDK for devices that connect to Azure IoT Central.
-var iotHubTransport = require('azure-iot-device-mqtt').Mqtt;
-var Client = require('azure-iot-device').Client;
-var Message = require('azure-iot-device').Message;
-var ProvisioningTransport = require('azure-iot-provisioning-device-mqtt').Mqtt;
-var SymmetricKeySecurityClient = require('azure-iot-security-symmetric-key').SymmetricKeySecurityClient;
-var ProvisioningDeviceClient = require('azure-iot-provisioning-device').ProvisioningDeviceClient;
+const iotHubTransport = require('azure-iot-device-mqtt').Mqtt;
+const Client = require('azure-iot-device').Client;
+const Message = require('azure-iot-device').Message;
+const ProvisioningTransport = require('azure-iot-provisioning-device-mqtt').Mqtt;
+const SymmetricKeySecurityClient = require('azure-iot-security-symmetric-key').SymmetricKeySecurityClient;
+const ProvisioningDeviceClient = require('azure-iot-provisioning-device').ProvisioningDeviceClient;
+
+// get info from .env file
+const dotenv = require('dotenv');
+dotenv.config();
 
 
-var provisioningHost = 'global.azure-devices-provisioning.net';
-var idScope = '0ne000D8342';
-var registrationId = '1w3zzc2m25t';
-var symmetricKey = 'LxmcPO/8wLn/gwaJRJZ8IO2LKK21Nhl8vprJDTmaICc=';
+var provisioningHost = process.env.HOST;
+var idScope = process.env.SCOPE;
+var registrationId = process.env.ID;
+var symmetricKey = process.env.KEY;
+
 var provisioningSecurityClient = new SymmetricKeySecurityClient(registrationId, symmetricKey);
 var provisioningClient = ProvisioningDeviceClient.create(provisioningHost, idScope, new ProvisioningTransport(), provisioningSecurityClient);
 var hubClient;
+
+
 var targetSpeed = 1;
 var range=5.0;
+var randomWeight=0.25;
 var clycleOn = true;
 
 
 // Send device measurements.
 function sendTelemetry() {
     if(clycleOn===true){
-        var current = Math.sin(new Date().getTime()*targetSpeed/5000)*range + (Math.random() * 0.25);
+        var current = Math.sin(new Date().getTime()*targetSpeed/5000)*range + (Math.random() * randomWeight);
         var data = JSON.stringify({
             Cycle: current
         });
@@ -76,11 +84,22 @@ var settings = {
     });
   }
 
-
   // Handle Cycle turn on command
   function turnCycleOn(request, response) {
     console.log(`Received synchronous call to turn on Cycle with ${request.payload} range`);
-    range=request.payload;
+    randomWeight=request.payload;
+    hubClient.getTwin((err, twin) => {
+      if (err) {
+        console.log(`Error getting device twin: ${err.toString()}`);
+      } else {
+        // Send Environmental Sensor device properties once on device start up.
+        var properties = {
+          RandomWeight: randomWeight
+        };
+        sendDeviceProperties(twin, properties);
+      }
+    });
+
     if(!clycleOn){
       console.log('Turning on the Cycle');
       clycleOn = true;
@@ -124,7 +143,8 @@ var connectCallback = (err) => {
           // Send Environmental Sensor device properties once on device start up.
           var properties = {
             Speed: targetSpeed,
-            MaxRange: range
+            MaxRange: range,
+            RandomWeight:randomWeight
           };
           sendDeviceProperties(twin, properties);
           handleSettings(twin);
