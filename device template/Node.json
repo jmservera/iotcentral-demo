@@ -1,0 +1,98 @@
+{
+    "@id": "urn:custom1exgyw2sg8e:Node_4gl:1",
+    "@type": "CapabilityModel",
+    "implements": [
+      {
+        "@id": "urn:custom1exgyw2sg8e:Node_4gl:15y7ssdkg:1",
+        "@type": "InterfaceInstance",
+        "displayName": {
+          "en": "Interface"
+        },
+        "name": "Node_5vs",
+        "schema": {
+          "@id": "urn:custom1exgyw2sg8e:Node_5vs:1",
+          "@type": "Interface",
+          "displayName": {
+            "en": "Interface"
+          },
+          "contents": [
+            {
+              "@id": "urn:custom1exgyw2sg8e:Node_5vs:Cycle:1",
+              "@type": "Telemetry",
+              "displayName": {
+                "en": "Cycle"
+              },
+              "name": "Cycle",
+              "schema": "double"
+            },
+            {
+              "@id": "urn:custom1exgyw2sg8e:Node_5vs:Speed:1",
+              "@type": "Property",
+              "displayName": {
+                "en": "Speed"
+              },
+              "name": "Speed",
+              "writable": true,
+              "schema": "double",
+              "unit": "Units/Velocity/revolutionsPerSecond"
+            },
+            {
+              "@id": "urn:custom1exgyw2sg8e:Node_5vs:MaxRange:1",
+              "@type": "Property",
+              "displayName": {
+                "en": "Max Range"
+              },
+              "name": "MaxRange",
+              "writable": true,
+              "displayUnit": {
+                "en": "m"
+              },
+              "schema": "double"
+            },
+            {
+              "@id": "urn:custom1exgyw2sg8e:Node_5vs:RandomWeight:1",
+              "@type": "Property",
+              "displayName": {
+                "en": "Random Weight"
+              },
+              "name": "RandomWeight",
+              "schema": "double"
+            },
+            {
+              "@id": "urn:custom1exgyw2sg8e:Node_5vs:Start:1",
+              "@type": "Command",
+              "commandType": "synchronous",
+              "request": {
+                "@id": "urn:custom1exgyw2sg8e:Node_5vs:Start:RandomWeight:1",
+                "@type": "SchemaField",
+                "displayName": {
+                  "en": "Random Weight"
+                },
+                "name": "RandomWeight",
+                "schema": "double"
+              },
+              "displayName": {
+                "en": "Start"
+              },
+              "name": "Start"
+            },
+            {
+              "@id": "urn:custom1exgyw2sg8e:Node_5vs:Stop:1",
+              "@type": "Command",
+              "commandType": "synchronous",
+              "displayName": {
+                "en": "Stop"
+              },
+              "name": "Stop"
+            }
+          ]
+        }
+      }
+    ],
+    "displayName": {
+      "en": "Node"
+    },
+    "@context": [
+      "http://azureiot.com/v1/contexts/IoTModel.json"
+    ]
+  }
