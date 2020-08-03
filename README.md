@@ -10,5 +10,5 @@ A simple nodejs device that simulates a sinusoidal curve with some randomization
 4. Get the connection values from the device in IoT Central
 5. Create a .env file with the needed values like in [example-env](example-env)
 6. Run the node application (you may need to do a npm install / yarn install before)
-7. Check the device dashboard
+7. Now you can start creating device views in the device template and see the data
   
