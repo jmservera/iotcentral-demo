@@ -1,6 +1,6 @@
 # fill this with the scope, deviceid and sas key from IoT Central
 
 HOST=global.azure-devices-provisioning.net
-SCOPE=
+SCOPE=0ne000DD2CE
 ID=
 KEY=
