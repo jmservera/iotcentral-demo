@@ -43,7 +43,7 @@ function sendTelemetry() {
     }
   }
 
-  // Send device reported properties.
+// Send device reported properties.
 function sendDeviceProperties(twin, properties) {
     twin.properties.reported.update(properties, (err) => console.log(`Sent device properties: ${JSON.stringify(properties)}; ` +
       (err ? `error: ${err.toString()}` : `status: success`)));
@@ -65,18 +65,20 @@ var settings = {
   // Handle writeable property changes that come from Azure IoT Central via the device twin.
   function handleSettings(twin) {
     twin.on('properties.desired', function (desiredChange) {
+      //console.log(JSON.stringify(desiredChange));
       for (let setting in desiredChange) {
         if (settings[setting]) {
-          console.log(`Received setting: ${setting}: ${desiredChange[setting].value}`);
-          settings[setting](desiredChange[setting].value, (newValue, status, message) => {
+          console.log(`Received setting: ${setting}: ${desiredChange[setting]}`);
+          settings[setting](desiredChange[setting], (newValue, status, code) => {
             var patch = {
               [setting]: {
                 value: newValue,
-                status: status,
-                desiredVersion: desiredChange.$version,
-                message: message
+                ad: status,
+                av: desiredChange.$version,
+                ac: code===undefined?200:code
               }
             }
+            console.log(JSON.stringify(patch));
             sendDeviceProperties(twin, patch);
           });
         }

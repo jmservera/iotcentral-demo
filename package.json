@@ -5,10 +5,10 @@
   "author": "jmservera",
   "license": "MIT",
   "dependencies": {
-    "azure-iot-device": "^1.13.0",
-    "azure-iot-device-mqtt": "^1.12.0",
-    "azure-iot-provisioning-device-mqtt": "^1.7.0",
-    "azure-iot-security-symmetric-key": "^1.7.0",
+    "azure-iot-device": "^1.17.1",
+    "azure-iot-device-mqtt": "^1.15.1",
+    "azure-iot-provisioning-device-mqtt": "^1.7.5",
+    "azure-iot-security-symmetric-key": "^1.7.5",
     "dotenv": "^8.2.0"
   }
 }
