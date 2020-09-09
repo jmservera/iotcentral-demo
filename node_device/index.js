@@ -78,7 +78,6 @@ var settings = {
                 ac: code===undefined?200:code
               }
             }
-            console.log(JSON.stringify(patch));
             sendDeviceProperties(twin, patch);
           });
         }
